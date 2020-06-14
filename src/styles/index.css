@@ -1,0 +1,19 @@
+@import "~antd/dist/antd.css";
+
+body {
+  text-align: center;
+}
+
+.card {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.border {
+  border-bottom: 1px solid lightgray;
+}
+.border:last-child {
+  border-bottom: none;
+}
