@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert } from "antd";
 interface Props {
-  message?: string;
+  message: string;
   description?: string;
 }
 

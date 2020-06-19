@@ -35,12 +35,32 @@ export const Login = ({ setViewer }: Props) => {
   ] = useMutation<LoginData, LoginVariables>(LOG_IN, {
     //callback when user logged in
     onCompleted: data => {
-      if (data && data.login) {
+      if (data && data.login && data.login.id && data.login.token) {
         setViewer(data.login);
+        setCookie("viewer", data.login.id);
+        sessionStorage.setItem("token", data.login.token);
         successMessage("You successfully logged in!");
+      } else {
+        sessionStorage.removeItem("token");
       }
     }
   });
+
+  const setCookie = (name: string, val: string) => {
+    const date = new Date();
+    const value = val;
+    // Set it expire in 7 days
+    date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+    // Set it
+    document.cookie =
+      name +
+      "=" +
+      value +
+      "; expires=" +
+      date.toUTCString() +
+      "; sameSite=Strict; path=/";
+  };
+
   const loginRef = useRef(login);
   //get the token data after redirecting back
   useEffect(() => {

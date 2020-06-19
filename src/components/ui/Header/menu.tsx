@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { Avatar, Button, Menu } from "antd";
 import { HomeOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
@@ -28,8 +29,12 @@ export const MenuItems = (props: Props) => {
       );
     }
   });
-
+  const history = useHistory();
   const logOutHandler = () => {
+    //delete  cookie & token and redirect
+    sessionStorage.removeItem("token");
+    document.cookie = "viewer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    history.push("/");
     logout();
   };
 

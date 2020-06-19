@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Layout, Affix } from "antd";
 import { Viewer } from "../lib/types";
 import { useMutation } from "react-apollo";
-
 import { LOG_IN, Login as LoginData, LoginVariables } from "../lib/graphql";
 
 //unlogged user
@@ -19,27 +18,35 @@ const initialViewer: Viewer = {
 
 export const Routes = () => {
   const [viewer, setViewer] = useState<Viewer>(initialViewer);
-  const [login, { error }] = useMutation<LoginData, LoginVariables>(LOG_IN, {
+  const [login, { loading }] = useMutation<LoginData, LoginVariables>(LOG_IN, {
     onCompleted: data => {
-      if (data && data.login.id) {
+      if (data && data.login) {
         setViewer(data.login);
+
+        if (data.login.token) {
+          sessionStorage.setItem("token", data.login.token);
+        } else {
+          sessionStorage.removeItem("token");
+        }
       }
     },
     onError: err => console.log(err)
   });
 
+  //try  to log in with cookie
   const loginRef = useRef(login);
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await loginRef.current();
-      console.log(data);
-      console.log(document.cookie);
-    };
-    fetchData();
+    const cookie = document.cookie.split("viewer=")[1];
+    loginRef.current({
+      variables: {
+        input: { cookie }
+      }
+    });
   }, []);
 
   const loginProps = {
     user: viewer,
+    loginLoading: loading,
     setUser: setViewer
   };
 
@@ -61,7 +68,11 @@ export const Routes = () => {
           <Route exact path="/listing/:id" component={Listing} />
           {/* ? means it's optional */}
           <Route exact path="/listings/:location?" component={Listings} />
-          <Route exact path="/user/:id" component={User} />
+          <Route
+            exact
+            path="/user/:id"
+            render={props => <User {...props} viewer={viewer} />}
+          />
           <Route component={NotFound} />
         </Switch>
       </Layout>

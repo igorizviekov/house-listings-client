@@ -8,11 +8,16 @@ import { Viewer } from "../../../lib/types";
 interface Props {
   user: Viewer;
   setUser: (user: Viewer) => void;
+  loginLoading: boolean;
 }
 
 const { Header } = Layout;
 
 export const AppHeader = (props: Props) => {
+  const menu = props.loginLoading ? null : (
+    <MenuItems user={props.user} setUser={props.setUser} />
+  );
+
   return (
     <Header className="app-header">
       <div className="app-header__logo-search-section">
@@ -22,9 +27,7 @@ export const AppHeader = (props: Props) => {
           </NavLink>
         </div>
       </div>
-      <div className="app-header__menu-section">
-        <MenuItems user={props.user} setUser={props.setUser} />
-      </div>
+      <div className="app-header__menu-section">{menu}</div>
     </Header>
   );
 };
