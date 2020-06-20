@@ -1,53 +1,29 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { Listings, Listing, Home, Host, NotFound, User, Login } from "../pages";
 import { AppHeader } from "../components/ui/Header/header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Layout, Affix } from "antd";
 import { Viewer } from "../lib/types";
-import { useMutation } from "react-apollo";
-import { LOG_IN, Login as LoginData, LoginVariables } from "../lib/graphql";
 
-//unlogged user
-const initialViewer: Viewer = {
-  id: null,
-  token: null,
-  avatar: null,
-  hasWallet: null,
-  didRequest: false
-};
+interface Props {
+  user: Viewer;
+  loginLoading: boolean;
+  setUser: (user: Viewer) => void;
+}
 
-export const Routes = () => {
-  const [viewer, setViewer] = useState<Viewer>(initialViewer);
-  const [login, { loading }] = useMutation<LoginData, LoginVariables>(LOG_IN, {
-    onCompleted: data => {
-      if (data && data.login) {
-        setViewer(data.login);
-
-        if (data.login.token) {
-          sessionStorage.setItem("token", data.login.token);
-        } else {
-          sessionStorage.removeItem("token");
-        }
-      }
-    },
-    onError: err => console.log(err)
-  });
-
-  //try  to log in with cookie
-  const loginRef = useRef(login);
-  useEffect(() => {
-    const cookie = document.cookie.split("viewer=")[1];
-    loginRef.current({
-      variables: {
-        input: { cookie }
-      }
-    });
-  }, []);
+export const Routes = (props: Props) => {
+  const headerProps = {
+    user: props.user,
+    loginLoading: props.loginLoading,
+    setUser: props.setUser
+  };
 
   const loginProps = {
-    user: viewer,
-    loginLoading: loading,
-    setUser: setViewer
+    setViewer: props.setUser
+  };
+
+  const userProps = {
+    viewer: props.user
   };
 
   return (
@@ -55,13 +31,13 @@ export const Routes = () => {
       <Layout id="app">
         {/* affix to fix element on top */}
         <Affix offsetTop={0}>
-          <AppHeader {...loginProps} />
+          <AppHeader {...headerProps} />
         </Affix>
         <Switch>
           <Route
             exact
             path="/login"
-            render={props => <Login {...props} setViewer={setViewer} />}
+            render={props => <Login {...loginProps} />}
           />
           <Route exact path="/" component={Home} />
           <Route exact path="/host" component={Host} />
@@ -71,7 +47,7 @@ export const Routes = () => {
           <Route
             exact
             path="/user/:id"
-            render={props => <User {...props} viewer={viewer} />}
+            render={props => <User {...props} viewer={userProps.viewer} />}
           />
           <Route component={NotFound} />
         </Switch>

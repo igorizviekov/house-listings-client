@@ -23,7 +23,7 @@ export const UserProfile = ({ user, viewerIsUser }: Props) => {
         <Paragraph type="secondary">
           TinyHouse uses
           <a
-            href="https://stripe.com/en-US/conntect"
+            href="https://stripe.com/en-US/contact"
             target="_blank"
             rel="noopener noreferrer"
           >

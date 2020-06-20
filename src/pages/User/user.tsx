@@ -66,7 +66,7 @@ export const User = ({
       </Col>
       <Col xs={24}>
         <UserListings {...listingsProps} />
-        <UserBookings {...bookingsProps} />
+        {data?.user.bookings ? <UserBookings {...bookingsProps} /> : null}
       </Col>
     </Row>
   );
