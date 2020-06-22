@@ -1,5 +1,13 @@
 import React from "react";
-import { Listings, Listing, Home, Host, NotFound, User, Login } from "../pages";
+import {
+  Listings,
+  ListingPage,
+  Home,
+  Host,
+  NotFound,
+  User,
+  Login
+} from "../pages";
 import { AppHeader } from "../components/ui/Header/header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Layout, Affix } from "antd";
@@ -41,7 +49,7 @@ export const Routes = (props: Props) => {
           />
           <Route exact path="/" component={Home} />
           <Route exact path="/host" component={Host} />
-          <Route exact path="/listing/:id" component={Listing} />
+          <Route exact path="/listing/:id" component={ListingPage} />
           {/* ? means it's optional */}
           <Route exact path="/listings/:location?" component={Listings} />
           <Route

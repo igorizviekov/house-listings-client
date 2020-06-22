@@ -14,7 +14,7 @@ import { PageSkeleton } from "../../components/ui/skeleton";
 interface MatchParams {
   id: string;
 }
-//passing viewer  props to  compare  id  with user
+//passing user props to compare id with user
 interface Props {
   viewer: Viewer;
 }

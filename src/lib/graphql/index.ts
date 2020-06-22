@@ -10,3 +10,7 @@ export * from "./queries/AuthUrl/__generated__/AuthUrl";
 //user
 export * from "./queries/User";
 export * from "./queries/User/__generated__/User";
+
+//listing
+export * from "./queries/Listing";
+export * from "./queries/Listing/__generated__/Listing";
