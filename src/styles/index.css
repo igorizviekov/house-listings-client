@@ -195,7 +195,9 @@
 .home-hero {
   width: 100%;
 }
-
+.home {
+  background-size: 600px;
+}
 .home-hero__search {
   max-width: 600px;
 }
@@ -227,7 +229,7 @@
   left: 0;
   right: 0;
   background: #1d226c;
-  opacity: 0.5;
+  opacity: 0.2;
   -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }

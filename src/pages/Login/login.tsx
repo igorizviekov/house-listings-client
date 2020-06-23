@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { Redirect } from "react-router";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import googleLogo from "../../assets/google.png";
-import { Card, Layout, Typography, Spin } from "antd";
+import { LoginCard } from "./components/loginCard";
+import { Layout, Spin } from "antd";
 import { ErrorBanner } from "../../components/ui/error";
 import {
   successMessage,
@@ -19,7 +19,6 @@ import {
 
 //de-structure ant components
 const { Content } = Layout;
-const { Text, Title } = Typography;
 
 interface Props {
   setViewer: (viewer: Viewer) => void;
@@ -86,35 +85,10 @@ export const Login = ({ setViewer }: Props) => {
     }
   };
 
-  let loginCard = (
-    <Card className="log-in-card">
-      <div className="log-in-card__intro">
-        <Title level={2} className="log-in-card__intro-title">
-          <span role="img" aria-label="wave">
-            👋
-          </span>
-        </Title>
-        <Title level={3} className="log-in-card__intro-title">
-          Log In to TinyHouse!
-        </Title>
-        <Text>Sign in with Google to start booking available rentals!</Text>
-      </div>
-      <button onClick={handleAuth} className="log-in-card__google-button">
-        <img
-          src={googleLogo}
-          alt="Google Logo"
-          className="log-in-card__google-button-logo"
-        />
-        <span className="log-in-card__google-button-text">
-          Sign in with Google
-        </span>
-      </button>
-      <Text type="secondary">
-        Note: By signing in, you'll redirected to the Google consent form to
-        sign in with your Google account.
-      </Text>
-    </Card>
-  );
+  const loginCardProps = {
+    onAuth: handleAuth
+  };
+  let loginCard = <LoginCard {...loginCardProps} />;
 
   if (loginLoading) {
     loginCard = <Spin size="large" tip="Logging you in..." />;

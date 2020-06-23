@@ -14,3 +14,7 @@ export * from "./queries/User/__generated__/User";
 //listing
 export * from "./queries/Listing";
 export * from "./queries/Listing/__generated__/Listing";
+
+//listings
+export * from "./queries/Listings";
+export * from "./queries/Listings/__generated__/Listings";
