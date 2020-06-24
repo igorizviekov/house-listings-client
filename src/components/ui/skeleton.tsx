@@ -4,7 +4,18 @@ export const ListingSkeleton = () => {
   return <Skeleton active paragraph={{ rows: 1 }} />;
 };
 
-export const HomeListingSkeleton = () => {
+interface ListingsProps {
+  numOfCards: number;
+}
+export const ListingsSkeleton = ({ numOfCards }: ListingsProps) => {
+  const generateCard = (num: number): {}[] => {
+    const array: {}[] = [];
+    //fill array with empty objects based on number of cards need to be displayed
+    for (let i = 0; i < num; i++) {
+      array.push({});
+    }
+    return array;
+  };
   return (
     <div className="home-listings-skeleton">
       <Skeleton paragraph={{ rows: 0 }} />
@@ -15,7 +26,7 @@ export const HomeListingSkeleton = () => {
           sm: 2,
           lg: 4
         }}
-        dataSource={[{}, {}, {}, {}]}
+        dataSource={generateCard(numOfCards)}
         renderItem={item => (
           <List.Item>
             <Card

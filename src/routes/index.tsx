@@ -42,11 +42,7 @@ export const Routes = (props: Props) => {
           <AppHeader {...headerProps} />
         </Affix>
         <Switch>
-          <Route
-            exact
-            path="/login"
-            render={props => <Login {...loginProps} />}
-          />
+          <Route exact path="/login" render={() => <Login {...loginProps} />} />
           <Route exact path="/" component={Home} />
           <Route exact path="/host" component={Host} />
           <Route exact path="/listing/:id" component={ListingPage} />

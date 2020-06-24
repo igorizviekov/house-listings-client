@@ -7,7 +7,7 @@ import { HeroHome } from "./components/heroHome";
 import { HomeCta } from "./components/homeCta";
 import { HomeAny } from "./components/homeAny";
 import { HomeListings } from "./components/homeListings";
-import { HomeListingSkeleton } from "../../components/ui/skeleton";
+import { ListingsSkeleton } from "../../components/ui/skeleton";
 
 import { useQuery } from "@apollo/react-hooks";
 import {
@@ -46,7 +46,7 @@ export const Home = ({ history }: RouteComponentProps) => {
   //render listings
   const renderListings = () => {
     if (loading) {
-      return <HomeListingSkeleton />;
+      return <ListingsSkeleton numOfCards={4} />;
     }
     if (data) {
       const listingsProps = {

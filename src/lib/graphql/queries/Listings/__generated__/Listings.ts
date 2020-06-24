@@ -18,10 +18,14 @@ export interface Listings_listings_result {
   address: string;
   price: number;
   numOfGuests: number;
+  city: string;
+  country: string;
+  admin: string;
 }
 
 export interface Listings_listings {
   __typename: "Listings";
+  region: string | null;
   total: number;
   result: Listings_listings_result[];
 }
@@ -31,6 +35,7 @@ export interface Listings {
 }
 
 export interface ListingsVariables {
+  location?: string | null;
   filter: ListingsFilter;
   page: number;
   limit: number;
