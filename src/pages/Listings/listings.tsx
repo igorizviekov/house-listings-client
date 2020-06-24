@@ -58,7 +58,7 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
     <Fragment>
       <Affix offsetTop={64}>
         <ListingsPagination {...paginationProps} />
-        <ListingsFilter {...filterProps} />
+        {error ? null : <ListingsFilter {...filterProps} />}
       </Affix>
       <ListingsSection {...listingsProps} />
     </Fragment>

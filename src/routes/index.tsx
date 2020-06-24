@@ -18,7 +18,6 @@ interface Props {
   loginLoading: boolean;
   setUser: (user: Viewer) => void;
 }
-
 export const Routes = (props: Props) => {
   const headerProps = {
     user: props.user,
