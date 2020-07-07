@@ -5,3 +5,4 @@ export { NotFound } from "./NotFound/404";
 export { Host } from "./Host/host";
 export { Home } from "./Home/home";
 export { Login } from "./Login/login";
+export { Stripe } from "./Stripe";

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import {
@@ -7,7 +7,7 @@ import {
   ListingsVariables
 } from "../../lib/graphql";
 import { ListingsFilter as FilterTypes } from "../../lib/graphql/globalTypes";
-import { Layout, Affix } from "antd";
+import { Layout } from "antd";
 import { ListingsSection } from "./components/listingsSection";
 import { ListingsFilter } from "./components/listingsFilter";
 import { ListingsPagination } from "./components/listingsPagination";
@@ -21,11 +21,14 @@ interface MatchParams {
 const PAGE_LIMIT = 8;
 const { Content } = Layout;
 export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
+  const locationRef = useRef(match.params.location);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState(FilterTypes.PRICE_LOW_TO_HIGH);
   const { data, loading, error } = useQuery<ListingsData, ListingsVariables>(
     LISTINGS,
     {
+      //prevent  make request if page is not equal to 1
+      skip: locationRef.current !== match.params.location && page !== 1,
       variables: {
         location: match.params.location,
         filter,
@@ -35,6 +38,12 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
       }
     }
   );
+
+  //set the page back to 1 if there was a search from another page
+  useEffect(() => {
+    locationRef.current = match.params.location;
+    setPage(1);
+  }, [match.params.location]);
 
   const listingsProps = {
     region: data ? data.listings.region : null,
@@ -56,10 +65,8 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
 
   let listingsSection = (
     <Fragment>
-      <Affix offsetTop={64}>
-        <ListingsPagination {...paginationProps} />
-        {error ? null : <ListingsFilter {...filterProps} />}
-      </Affix>
+      <ListingsPagination {...paginationProps} />
+      {error ? null : <ListingsFilter {...filterProps} />}
       <ListingsSection {...listingsProps} />
     </Fragment>
   );

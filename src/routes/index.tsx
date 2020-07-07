@@ -6,12 +6,14 @@ import {
   Host,
   NotFound,
   User,
+  Stripe,
   Login
 } from "../pages";
 import { AppHeader } from "../components/ui/Header/header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Layout, Affix } from "antd";
+import { Layout } from "antd";
 import { Viewer } from "../lib/types";
+import { ScrollToTop } from "../components/ui/scrollToTop";
 
 interface Props {
   user: Viewer;
@@ -28,20 +30,28 @@ export const Routes = (props: Props) => {
   const loginProps = {
     setViewer: props.setUser
   };
-
+  const stripeProps = {
+    viewer: props.user,
+    setViewer: props.setUser
+  };
   const userProps = {
-    viewer: props.user
+    viewer: props.user,
+    setViewer: props.setUser
   };
 
   return (
     <Router>
+      <ScrollToTop />
       <Layout id="app">
         {/* affix to fix element on top */}
-        <Affix offsetTop={0}>
-          <AppHeader {...headerProps} />
-        </Affix>
+        <AppHeader {...headerProps} />
         <Switch>
           <Route exact path="/login" render={() => <Login {...loginProps} />} />
+          <Route
+            exact
+            path="/stripe"
+            render={() => <Stripe {...stripeProps} />}
+          />
           <Route exact path="/" component={Home} />
           <Route exact path="/host" component={Host} />
           <Route exact path="/listing/:id" component={ListingPage} />
@@ -50,7 +60,13 @@ export const Routes = (props: Props) => {
           <Route
             exact
             path="/user/:id"
-            render={props => <User {...props} viewer={userProps.viewer} />}
+            render={props => (
+              <User
+                {...props}
+                viewer={userProps.viewer}
+                setViewer={userProps.setViewer}
+              />
+            )}
           />
           <Route component={NotFound} />
         </Switch>

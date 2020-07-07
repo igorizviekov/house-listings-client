@@ -22,6 +22,10 @@ export interface LoginInput {
   cookie?: string | null;
 }
 
+export interface StripeInput {
+  code: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

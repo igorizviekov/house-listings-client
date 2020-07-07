@@ -30,8 +30,10 @@
 
 .app-header {
   display: flex;
+  position: sticky;
+  z-index: 19;
+  top: 0;
   background: #fff;
-  box-shadow: 0 2px 8px #f0f1f2;
   padding: 0;
 }
 
@@ -555,6 +557,9 @@
 }
 
 .listings-filters {
+  position: sticky;
+  top: 64px;
+  z-index: 19;
   padding: 10px 0;
   background: #fff;
 }
@@ -570,6 +575,9 @@
 }
 
 .listings-pagination {
+  position: sticky;
+  top: 64px;
+  z-index: 20;
   padding: 10px 0;
   float: right;
 }

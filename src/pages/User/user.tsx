@@ -17,29 +17,46 @@ interface MatchParams {
 //passing user props to compare id with user
 interface Props {
   viewer: Viewer;
+  setViewer: (viewer: Viewer) => void;
 }
 const { Content } = Layout;
 const PAGE_LIMIT = 4;
 
 export const User = ({
   viewer,
+  setViewer,
   match
 }: Props & RouteComponentProps<MatchParams>) => {
   const [listPage, setListPage] = useState(1);
   const [bookPage, setBookPage] = useState(1);
 
-  const { data, loading, error } = useQuery<UserData, UserVariables>(USER, {
-    variables: {
-      id: match.params.id,
-      // pagination
-      limit: PAGE_LIMIT,
-      listingsPage: listPage,
-      bookingsPage: bookPage
+  const { data, loading, error, refetch } = useQuery<UserData, UserVariables>(
+    USER,
+    {
+      variables: {
+        id: match.params.id,
+        // pagination
+        limit: PAGE_LIMIT,
+        listingsPage: listPage,
+        bookingsPage: bookPage
+      }
     }
-  });
+  );
+
+  const stripeError = new URL(window.location.href).searchParams.get(
+    "stripe_error"
+  );
+  const stripeErrorBanner = stripeError ? (
+    <ErrorBanner message="Oops. Could not connect to stripe. Try to reload the page" />
+  ) : null;
+  //refetch user when disconnected from stripe
+  const handleUserRefetch = async () => await refetch();
 
   const userProps = {
     user: data ? data.user : null,
+    viewer,
+    setViewer,
+    refetch: handleUserRefetch,
     viewerIsUser: viewer.id === match.params.id ? true : false
   };
 
@@ -61,6 +78,7 @@ export const User = ({
 
   let content = (
     <Row gutter={12} justify="space-between">
+      {stripeErrorBanner}
       <Col flex={1} xs={24}>
         <UserProfile {...userProps} />
       </Col>
@@ -80,5 +98,6 @@ export const User = ({
       <ErrorBanner message="Oops. Something went wrong. Try to reload the page" />
     );
   }
+
   return <Content className="user">{content}</Content>;
 };

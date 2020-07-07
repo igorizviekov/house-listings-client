@@ -18,9 +18,6 @@ export interface Listings_listings_result {
   address: string;
   price: number;
   numOfGuests: number;
-  city: string;
-  country: string;
-  admin: string;
 }
 
 export interface Listings_listings {
