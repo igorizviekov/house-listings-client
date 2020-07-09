@@ -40,8 +40,8 @@ export const HeroHome = ({ onSearch }: Props) => {
           </Link>
         </Col>
         <Col xs={12} md={6}>
-          <Link to={`/listings/kiev`}>
-            <Card cover={<img src={kievImg} alt="Kiev" />}>Kiev</Card>
+          <Link to={`/listings/kyiv`}>
+            <Card cover={<img src={kievImg} alt="Kiev" />}>Kyiv</Card>
           </Link>
         </Col>
         <Col xs={0} md={6}>

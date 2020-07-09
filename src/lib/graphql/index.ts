@@ -22,3 +22,7 @@ export * from "./queries/Listing/__generated__/Listing";
 //listings
 export * from "./queries/Listings";
 export * from "./queries/Listings/__generated__/Listings";
+
+//host
+export * from "./mutations/HostListing";
+export * from "./mutations/HostListing/__generated__/HostListing";

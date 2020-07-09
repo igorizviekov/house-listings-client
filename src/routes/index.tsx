@@ -38,7 +38,10 @@ export const Routes = (props: Props) => {
     viewer: props.user,
     setViewer: props.setUser
   };
-
+  const hostProps = {
+    viewer: props.user,
+    loginLoading: props.loginLoading
+  };
   return (
     <Router>
       <ScrollToTop />
@@ -53,7 +56,7 @@ export const Routes = (props: Props) => {
             render={() => <Stripe {...stripeProps} />}
           />
           <Route exact path="/" component={Home} />
-          <Route exact path="/host" component={Host} />
+          <Route exact path="/host" render={() => <Host {...hostProps} />} />
           <Route exact path="/listing/:id" component={ListingPage} />
           {/* ? means it's optional */}
           <Route exact path="/listings/:location?" component={Listings} />
