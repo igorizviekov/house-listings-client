@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-boost";
 import App from "./App";
+import { StripeProvider } from "react-stripe-elements";
 
 const client = new ApolloClient({
   uri: "http://localhost:8080/api",
@@ -16,8 +17,10 @@ const client = new ApolloClient({
   }
 });
 render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <StripeProvider apiKey={process.env.REACT_APP_S_PUBLISHABLE as string}>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </StripeProvider>,
   document.getElementById("root")
 );

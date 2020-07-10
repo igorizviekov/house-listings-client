@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import { Viewer } from "../lib/types";
 import { ScrollToTop } from "../components/ui/scrollToTop";
+import { Elements } from "react-stripe-elements";
 
 interface Props {
   user: Viewer;
@@ -29,6 +30,9 @@ export const Routes = (props: Props) => {
 
   const loginProps = {
     setViewer: props.setUser
+  };
+  const listingProps = {
+    viewer: props.user
   };
   const stripeProps = {
     viewer: props.user,
@@ -56,8 +60,16 @@ export const Routes = (props: Props) => {
             render={() => <Stripe {...stripeProps} />}
           />
           <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/listing/:id"
+            render={props => (
+              <Elements>
+                <ListingPage {...props} {...listingProps} />
+              </Elements>
+            )}
+          />
           <Route exact path="/host" render={() => <Host {...hostProps} />} />
-          <Route exact path="/listing/:id" component={ListingPage} />
           {/* ? means it's optional */}
           <Route exact path="/listings/:location?" component={Listings} />
           <Route
